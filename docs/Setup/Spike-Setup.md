@@ -1,10 +1,10 @@
-## 🔧 Spike Prime Setup Guide (for Pybricks)
+## Spike Prime Setup Guide (for Pybricks)
 
 This guide walks you through preparing your LEGO Spike Prime hub to run Pybricks firmware and connect with a Bluetooth Xbox controller.
 
 ---
 
-### 🚨 Step 1: Enter DFU Mode
+### Step 1: Enter DFU Mode
 To install Pybricks firmware, your Spike Prime hub must be in DFU mode:
 
 1. **Turn off** the Spike Prime hub.
@@ -18,7 +18,7 @@ You are now in DFU mode and ready to flash the firmware.
 
 ---
 
-### 🧰 Step 2: Flash Pybricks Firmware
+### Step 2: Flash Pybricks Firmware
 1. Open [Code.Pybricks](https://code.pybricks.com) in Google Chrome.
 2. Follow the on-screen instructions to install the firmware (select your hub and upload).
 
@@ -34,7 +34,7 @@ You are now in DFU mode and ready to flash the firmware.
 
 ---
 
-### 🔄 Step 3: Reconnect Hub for Coding
+### Step 3: Reconnect Hub for Coding
 1. Turn off the hub (if still in DFU mode).
 2. Unplug and plug it back in normally.
 3. The hub will now appear as a Pybricks device in Code.Pybricks and is ready to run MicroPython code.

@@ -1,10 +1,10 @@
-## 🎮 Xbox Controller Pairing & Test Guide
+## Xbox Controller Pairing & Test Guide
 
 Use this guide to pair a Bluetooth Xbox controller with your Spike Prime hub and verify it’s working using Pybricks.
 
 ---
 
-### 🔋 Step 1: Put Controller in Pairing Mode
+### Step 1: Put Controller in Pairing Mode
 
 1. Press and hold the **Xbox button** to turn the controller on.
 2. Then press and hold the **pairing button** (small button between the bumpers) until the Xbox light flashes rapidly.
@@ -13,7 +13,7 @@ This puts the controller in pairing mode.
 
 ---
 
-### 🔌 Step 2: Pair via Python in Code.Pybricks
+### Step 2: Pair via Python in Code.Pybricks
 
 Pairing must be done through a Python script **run using** [Code.Pybricks](https://code.pybricks.com).
 
@@ -22,7 +22,7 @@ Pairing must be done through a Python script **run using** [Code.Pybricks](https
 
 ---
 
-### ✅ Step 3: Confirm Pairing
+### Step 3: Confirm Pairing
 
 * You can also use rumble to confirm:
 
@@ -37,7 +37,7 @@ xbox.rumble(200, 200, 2, 200)
 
 ---
 
-### 📤 Running the Test
+### Running the Test
 
 To run the test program:
 
