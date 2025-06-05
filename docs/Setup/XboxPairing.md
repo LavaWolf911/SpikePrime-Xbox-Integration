@@ -22,8 +22,6 @@ Pairing must be done through a Python script **run using** [Code.Pybricks](https
 
 ---
 
----
-
 ### 🔄 Important Note: Re-Pairing Required
 
 Each time you **run the Python program to connect the controller**, you will need to pair it again. The Xbox controller does **not** stay paired permanently with the Spike Prime hub — it must be paired fresh every time the program starts.
