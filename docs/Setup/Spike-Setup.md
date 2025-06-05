@@ -1,4 +1,4 @@
-## Spike Prime Setup Guide (for Pybricks)
+# Spike Prime Setup Guide (for Pybricks)
 
 This guide walks you through preparing your LEGO Spike Prime hub to run Pybricks firmware and connect with a Bluetooth Xbox controller.
 

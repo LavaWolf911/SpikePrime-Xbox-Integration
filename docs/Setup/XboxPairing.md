@@ -1,4 +1,4 @@
-## Xbox Controller Pairing & Test Guide
+# Xbox Controller Pairing & Test Guide
 
 Use this guide to pair a Bluetooth Xbox controller with your Spike Prime hub and verify it’s working using Pybricks.
 
