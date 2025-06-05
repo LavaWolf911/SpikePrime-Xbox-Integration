@@ -1,126 +1,131 @@
 __author__ = "Connor Schwartz"
 
 from pybricks.iodevices import XboxController
-from pybricks.robotics import DriveBase
 from pybricks.pupdevices import Motor
 from pybricks.tools import wait
-from pybricks.parameters import Direction, Port, Stop
+from pybricks.parameters import Direction, Port
 from pybricks.hubs import PrimeHub
 
-THRESBRAKE = 0.01  # Deadzone thresBRAKE for joystick input
+# Deadzone threshold for joystick input
+THRESBRAKE = 0.01
 
 def deadzone(value: float) -> float:
-    """Returns 0 if abs(value) is less than thresBRAKE, else returns value."""
+    """Returns 0 if abs(value) is less than THRESBRAKE, else returns value."""
     return value if abs(value) >= THRESBRAKE else 0.0
 
+# Clamp range for motor speeds
 CLAMP_MIN = -500.0
 CLAMP_MAX = 500.0
-""""
-MAX_SPEED (int): Speed multiplier for drive motors. 
-    Multiply joystick values by this to set the maximum speed in deg/s.
-    Range: 1-10 (resulting in max speed of 100-1000 deg/s).
-    # Set MAX_SPEED to control how fast the robot drives. 
-    # For example, MAX_SPEED = 10 means joystick input is scaled up to 1000 deg/s.
-"""
-MAX_SPEED = 10  
-# Speed multipliers for claw and optional motors (1-10, scaled to 100-1000 deg/s)
-MAX_CLAW_SPEED = 10
-MAX_OPTIONAL_SPEED = 10
+
+# Speed multipliers for drive, claw, and optional motors
+MAX_SPEED = 10          # Drive motors (1-10, scaled to 100-1000 deg/s)
+MAX_CLAW_SPEED = 10     # Claw motor (1-10, scaled to 100-1000 deg/s)
+MAX_OPTIONAL_SPEED = 10 # Optional motor (1-10, scaled to 100-1000 deg/s)
 
 def clamp(value: float) -> float:
     """Clamp value between CLAMP_MIN and CLAMP_MAX."""
     return max(CLAMP_MIN, min(CLAMP_MAX, value))
 
 class Robot:
+    """
+    Main robot class for controlling drive, claw, and optional motors
+    using an Xbox controller.
+    """
     def __init__(self):
+        # Initialize hub and controller
         self.hub = PrimeHub()
         self.op = XboxController()
 
-        # Must have Drive motors on Port A and B
+        # Drive motors on Port A (left) and Port B (right)
         self.leftDrive = Motor(Port.A, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B, Direction.CLOCKWISE)
 
-        # At least one claw motor on Port C
+        # Claw motor on Port C
         self.claw_motor = Motor(Port.C, Direction.CLOCKWISE)
 
-        # Optional motor on port D
+        # Optional motor on Port D (if present)
         try:
             self.optional_motor = Motor(Port.D, Direction.CLOCKWISE)
             self.has4th_motor = True
         except Exception:
             self.has4th_motor = False
 
-        # Feedback to confirm init
+        # Rumble feedback to confirm initialization
         self.op.rumble(200, 200, 2, 200)
 
     def drive(self, leftSpeed, rightSpeed):
-        """Drive the robot with specified speed and turn rate."""
+        """Drive the robot with specified left and right motor speeds."""
         self.leftDrive.run(leftSpeed)
         self.rightDrive.run(rightSpeed)
 
     def run(self):
+        """Main control loop for reading controller input and driving motors."""
         while True:
-            
             # Get joystick inputs (scaled to -100 to 100)
-            # If not used comment out the joystick lines for efficiency
             # leftX = clamp(deadzone(self.op.joystick_left()[0]) * MAX_SPEED)
             leftY = clamp(deadzone(self.op.joystick_left()[1]) * MAX_SPEED)
             rightX = clamp(deadzone(self.op.joystick_right()[0]) * MAX_SPEED)
             # rightY = clamp(deadzone(self.op.joystick_right()[1]) * MAX_SPEED)
 
-                # === Arcade Drive ===
+            # === Arcade Drive ===
             # Left stick Y controls forward/backward
             # Right stick X controls turning
             leftSpeed = leftY + rightX
             rightSpeed = leftY - rightX
 
-                # --- Optional: Inverted Directions ---
+            # --- Optional: Inverted Directions ---
             # Invert both drive directions
             # leftSpeed = -(leftY + rightX)
             # rightSpeed = -(leftY - rightX)
 
-                # Invert only forward/backward
+            # Invert only forward/backward
             # leftSpeed = (-leftY) + rightX
             # rightSpeed = (-leftY) - rightX
 
-                # Invert only turning direction
+            # Invert only turning direction
             # leftSpeed = leftY - rightX
             # rightSpeed = leftY + rightX
 
-                # --- Optional: Tank Drive ---
+            # --- Optional: Tank Drive ---
             # Each joystick Y controls its own motor
             # leftSpeed = leftY
             # rightSpeed = rightY
 
-                # Inverted tank controls
+            # Inverted tank controls
             # leftSpeed = -leftY
             # rightSpeed = -rightY
+
+            # Claw motor control using triggers
             if self.claw_motor.stalled():
                 self.op.rumble(100, 20, delay=1)
             if self.op.triggers()[0] != 0:
-                self.claw_motor.run(self.op.triggers()[0]*MAX_CLAW_SPEED)
+                self.claw_motor.run(self.op.triggers()[0] * MAX_CLAW_SPEED)
             elif self.op.triggers()[1] != 0:
-                self.claw_motor.run(-self.op.triggers()[1]*MAX_CLAW_SPEED)
+                self.claw_motor.run(-self.op.triggers()[1] * MAX_CLAW_SPEED)
             else:
                 self.claw_motor.run(0)
             # self.claw_motor.run(-self.op.triggers()[0])
             # self.claw_motor.run(self.op.triggers()[1])
+
+            # Optional motor control using buttons
             if self.has4th_motor:
                 if 'a' in self.op.buttons.pressed():
-                    self.optional_motor.run(MAX_OPTIONAL_SPEED*100)
+                    self.optional_motor.run(MAX_OPTIONAL_SPEED * 100)
                 elif 'b' in self.op.buttons.pressed():
-                    self.optional_motor.run(-MAX_OPTIONAL_SPEED*100)
+                    self.optional_motor.run(-MAX_OPTIONAL_SPEED * 100)
                 else:
                     self.optional_motor.run(0)
+
+            # Stop motors if no input, else drive
             if leftSpeed == 0 and rightSpeed == 0:
                 self.leftDrive.run(0)
                 self.rightDrive.run(0)
             else:
                 self.drive(leftSpeed, rightSpeed)
+
             wait(20)  # Small delay to avoid busy loop
 
-
-# Example of instantiating and running
+# Instantiate and run the robot if this file is executed directly
 if __name__ == "__main__":
     bot = Robot()
     bot.run()
