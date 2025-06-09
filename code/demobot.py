@@ -25,7 +25,13 @@ def clamp(value):
 class Robot:
     def __init__(self):
         self.hub = PrimeHub()
-        self.op = XboxController()
+        while True:
+            try:
+                self.op = XboxController()
+                break
+            except Exception as e:
+                print(f"Error initializing XboxController: {e}")
+                wait(500)
 
         self.leftDrive = Motor(Port.A, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B, Direction.CLOCKWISE)

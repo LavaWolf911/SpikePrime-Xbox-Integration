@@ -1,13 +1,9 @@
-# Ignore everything
 *
-
-# But not these files
 !.gitignore
 !*.md
 !*.txt
 !*.json
 !*.py
-# Folders/Directories
 !*code/
 !code/**
 !*docs/
