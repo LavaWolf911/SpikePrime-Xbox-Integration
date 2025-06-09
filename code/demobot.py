@@ -43,10 +43,46 @@ class Robot:
         self.leftDrive.run(leftSpeed)
         self.rightDrive.run(rightSpeed)
 
+    def runFlipped(self):
+        # === Joystick Handling ===
+        leftY = clamp(deadzone(self.op.joystick_left()[1]) * MAX_SPEED)
+        rightX = clamp(deadzone(self.op.joystick_right()[0]) * MAX_SPEED)
+
+        leftSpeed = (leftY - rightX)
+        rightSpeed = (leftY + rightX)
+
+        if leftSpeed == 0 and rightSpeed == 0:
+            self.leftDrive.run(0)
+            self.rightDrive.run(0)
+        else:
+            self.drive(-leftSpeed, -rightSpeed)
+
+        # === Trigger & Button Handling ===
+        lt, rt = self.op.triggers()
+        if lt != 0:
+            self.claw_motor.run(-100 * MAX_CLAW_SPEED)
+        elif rt != 0:
+            self.claw_motor.run(100 * MAX_CLAW_SPEED)
+        else:
+            self.claw_motor.run(0)
+
+        if self.has4th_motor:
+            if Button.LB in self.op.buttons.pressed():
+                self.optional_motor.run(-100 * MAX_OPTIONAL_SPEED)
+            elif Button.RB in self.op.buttons.pressed():
+                self.optional_motor.run(100 * MAX_OPTIONAL_SPEED)
+            else:
+                # self.optional_motor.run(0)
+                self.optional_motor.brake()
 
     def run(self):
         while True:
-            self.runReg()
+            self.roll = self.hub.imu.tilt()[1]
+            flipped = self.roll < -90 or self.roll > 90
+            if flipped:
+                self.runFlipped()
+            else:
+                self.runReg()
             wait(1)
 
     def runReg(self):
