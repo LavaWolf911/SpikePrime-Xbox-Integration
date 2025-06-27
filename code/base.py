@@ -37,7 +37,6 @@ class Robot:
             self.claw_motor = Motor(Port.C, Direction.CLOCKWISE)
         except Exception as e:
             print(f"Error initializing claw motor: {e}")
-        self.rightDrive = Motor(Port.B, Direction.CLOCKWISE)
         try:
             self.optional_motor = Motor(Port.D, Direction.CLOCKWISE)
             self.has4th_motor = True
@@ -71,14 +70,14 @@ class Robot:
         if lt != 0:
             self.claw_motor.dc(MAX_CLAW_SPEED)
         elif rt != 0:
-            self.claw_motor.dc(MAX_CLAW_SPEED)
+            self.claw_motor.dc(-MAX_CLAW_SPEED)
         else:
             self.claw_motor.brake()
         if self.has4th_motor:
             if Button.LB in self.op.buttons.pressed():
-                self.optional_motor.dc(100)
+                self.optional_motor.dc(MAX_OPTIONAL_SPEED)
             elif Button.RB in self.op.buttons.pressed():
-                self.optional_motor.dc(-100)
+                self.optional_motor.dc(-MAX_OPTIONAL_SPEED)
             else:
                 self.optional_motor.brake()
 if __name__ == "__main__":
