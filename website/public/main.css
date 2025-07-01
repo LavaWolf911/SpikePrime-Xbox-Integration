@@ -1,92 +1,163 @@
-html,body {
-    margin: 0px;
-    background-color: #18142d;
-}
-.header-logo {
-    width: 75px;
-}
-.header-text {
-    margin-left: 1%;
-    font-family: 'Montserrat';
-    color: white;
-    font-size: 30px;
-}
-.auth-button {
-    margin-left: auto;
-    margin-right: 2%;
-    padding: 0.5% 1%;
-    background-color: #6b0a0a;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 1;
-    display: none;
-}
-.header {
-    width:100%;
-    height:12%;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #6b0a0a;
-    box-shadow: 0 4px 12px black;
-}
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: #242037;
-    width:17%;
-    height:88%;
-    z-index: 2;
-    box-shadow: 0 4px 12px black;
-}
-.sidebar-sections-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    width:100%;
-    height: 10%;
-    cursor:pointer;
-}
-.sidebar-sections-div:hover {
-    opacity: 0.8;
-}
-.side-bar-text {
-    font-family: 'Montserrat';
-    color: white;
-    font-size: 20px;
-}
-.sidebar-link {
-    text-decoration: none;
-}
-.msection-page {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #18142d;
-    width: 80.5%;
-    height:82.5%;
-    margin-left: 17%;
-    padding-left: 2.5%;
-    padding-top:2.5%; 
-}
-.msection-content {
-    background-color: #242037;
-    width:95%;
-    height:80%;
-    z-index: 0;
-    box-shadow: 0 4px 12px black;
-    color: white;
+:root {
+  --tesla-orange: #FF6A13;
+  --tesla-blue: #003D73;
+  --apple-red: #E30613;
+  --apple-blue: #003B5C;
+  --white: #FFFFFF;
+  --light-gray: #D1D3D4;
+  --black: #000000;
+  --silver: #C0C0C0;
 }
 
+/* Global box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #18142d;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  height: 100%;
+  overflow: auto; /* allow scrolling */
+}
+
+.header {
+  width: 100%;
+  height: 12%;
+  display: flex;
+  align-items: center;
+  background-color: var(--tesla-orange);
+  box-shadow: 0 4px 12px black;
+  padding: 0 1rem;
+}
+
+.header-logo {
+  width: 75px;
+}
+
+.header-text {
+  margin-left: 1%;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.auth-button {
+  margin-left: auto;
+  margin-right: 2%;
+  padding: 0.5rem 1rem;
+  background-color: var(--tesla-orange);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #e65b00; /* slightly darker */
+}
+
+.sidebar {
+  position: absolute;
+  top: 12%;
+  left: 0;
+  width: 17%;
+  height: 88%;
+  background-color: #242037;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px black;
+  z-index: 2;
+}
+
+.sidebar-sections-div {
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-sections-div:hover {
+  background-color: #3a3757;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.side-bar-text {
+  font-size: 20px;
+  color: white;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Dropdown menu styling */
+.dropdown-content {
+  background-color: #2f2c4f; /* dark purple-ish */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  padding: 0.25rem 0;
+}
+
+/* Indent dropdown links */
+.dropdown-content a {
+  display: block;
+  padding-left: 15px;
+}
+
+.msection-page {
+  position: absolute;
+  top: 12%;
+  left: 17%;
+  width: 83%;
+  height: 88%;
+  padding: 2rem;
+  background-color: #18142d;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.msection-content {
+  background-color: #242037;
+  height: 100%;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px black;
+  border-radius: 8px;
+  overflow-y: auto;
+  color: white;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+pre {
+  background-color: #1e1e3f;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+
+a {
+  color: #f5a623;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
