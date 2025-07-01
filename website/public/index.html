@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pybricks Teaching Hub</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="header">
+        <img class="header-logo" src="logo.png" alt="Logo" />
+        <p class="header-text">Pybricks Teaching Hub</p>
+        <button id="auth-btn" class="auth-button">Log In</button>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-sections-div"><a href="#" onclick="showPage('home')" class="sidebar-link"><p class="side-bar-text">Home</p></a></div>
+        <div class="sidebar-sections-div"><a href="#" onclick="showPage('getting-started')" class="sidebar-link"><p class="side-bar-text">Getting Started</p></a></div>
+        <div class="sidebar-sections-div"><a href="#" onclick="showPage('examples')" class="sidebar-link"><p class="side-bar-text">Examples</p></a></div>
+        <div class="sidebar-sections-div"><a href="#" onclick="showPage('resources')" class="sidebar-link"><p class="side-bar-text">Resources</p></a></div>
+    </div>
+
+    <div class="msection-page">
+        <div id="home" class="msection-content page-section">
+            <h1>Home</h1>
+            <p>Welcome to the Pybricks + Spike Prime learning site!</p>
+        </div>
+
+        <div id="getting-started" class="msection-content page-section" style="display: none;">
+            <h1>Getting Started</h1>
+            <p>To use Pybricks with your LEGO Spike Prime:</p>
+            <ol>
+                <li>Go to <a href="https://code.pybricks.com" target="_blank" rel="noopener noreferrer">code.pybricks.com</a></li>
+                <li>Follow the firmware flashing instructions</li>
+                <li>Connect your hub via USB and start programming!</li>
+            </ol>
+        </div>
+
+        <div id="examples" class="msection-content page-section" style="display: none;">
+            <h1>Examples</h1>
+            <pre><code>// Drive forward
+from pybricks.hubs import PrimeHub
+from pybricks.pupdevices import Motor
+from pybricks.parameters import Port
+from pybricks.tools import wait
+
+hub = PrimeHub()
+motor = Motor(Port.A)
+
+motor.run_time(500, 1000)
+</code></pre>
+        </div>
+
+        <div id="resources" class="msection-content page-section" style="display: none;">
+            <h1>Resources</h1>
+            <ul>
+                <li><a href="https://docs.pybricks.com" target="_blank" rel="noopener noreferrer">Pybricks Documentation</a></li>
+                <li><a href="https://pybricks.com" target="_blank" rel="noopener noreferrer">Official Pybricks Site</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showPage(id) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(p => p.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        let isSignedIn = false;
+        document.getElementById('auth-btn').addEventListener('click', function () {
+            isSignedIn = !isSignedIn;
+            this.textContent = isSignedIn ? 'Sign Out' : 'Log In';
+        });
+    </script>
+</body>
+</html>
