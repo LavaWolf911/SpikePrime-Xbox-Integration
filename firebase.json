@@ -7,16 +7,9 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-      {
-        "source": "/learn",
-        "destination": "/learn/learn.html"
-      },
-      {
-        "source": "/home",
-        "destination": "/home/index.html"
-      }
+      { "source": "/home", "destination": "/index.html" },
+      { "source": "/learn/**", "destination": "/index.html" },
+      { "source": "**", "destination": "/index.html" }
     ]
-
-
   }
 }
