@@ -51,7 +51,8 @@
 
     <div class="msection-page">
         <div id="home" class="page-section"></div>
-        <div id="getting-started" class="page-section" style="display: none;"></div>
+        <div id="start" class="page-section" style="display: none;"></div>
+        <div id="learn" class="page-section" style="display: none;"></div>
         <div id="resources" class="page-section" style="display: none;"></div>
         <div id="example1" class="page-section" style="display: none;"></div>
         <div id="example2" class="page-section" style="display: none;"></div>
@@ -60,18 +61,20 @@
 
     <script>
         function showPage(id) {
+            history.pushState(null, '', '/' + id); 
+
             const pages = document.querySelectorAll('.page-section');
             pages.forEach(p => p.style.display = 'none');
+
             const section = document.getElementById(id);
+            if (!section) return;
+
             section.style.display = 'block';
 
-            // Fetch HTML file and inject into section
             fetch("data/" + id + '.html')
                 .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error('Page not found');
+                    if (!response.ok) throw new Error('Page not found');
+                    return response.text();
                 })
                 .then(html => {
                     section.innerHTML = html;
@@ -83,21 +86,23 @@
 
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);
-            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
-        let isSignedIn = false;
         document.getElementById('auth-btn').addEventListener('click', function () {
             isSignedIn = !isSignedIn;
             this.textContent = isSignedIn ? 'Sign Out' : 'Log In';
         });
 
-        // Load home by default
-        showPage('home');
+        let isSignedIn = false;
+
+        const currentPath = window.location.pathname.replace('/', '') || 'home';
+        showPage(currentPath);
+
+        window.onpopstate = () => {
+            const path = window.location.pathname.replace('/', '') || 'home';
+            showPage(path);
+        };
     </script>
 </body>
 

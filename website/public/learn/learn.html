@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pybricks Teaching Hub</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <img class="header-logo" src="logo.png" alt="Logo" />
+        <p class="header-text">Pybricks Teaching Hub</p>
+        <button id="auth-btn" class="auth-button">Log In</button>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-sections-div"><a href="#" class="sidebar-link">
+                <p class="side-bar-text">Home</p>
+            </a></div>
+        <div class="sidebar-sections-div"><a href=" " onclick="showPage('motors')" class="sidebar-link">
+                <p class="side-bar-text">Motor</p>
+            </a></div>
+        <div class="sidebar-sections-div"><a href=" " onclick="showPage('display')" class="sidebar-link">
+                <p class="side-bar-text">Display</p>
+            </a></div>
+        <div class="sidebar-sections-div"><a href=" " onclick="showPage('controller')" class="sidebar-link">
+                <p class="side-bar-text">Controller</p>
+            </a></div>
+    </div>
+
+    <div class="msection-page">
+        <div id="Hubs" class="page-section"></div>
+        <div id="Motors" class="page-section" style="display: none;"></div>
+        <div id="Display" class="page-section" style="display: none;"></div>
+        <div id="Controller" class="page-section" style="display: none;"></div>
+    </div>
+
+    <script>
+        function showPage(id) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(p => p.style.display = 'none');
+            const section = document.getElementById(id);
+            section.style.display = 'block';
+            fetch("data/learn/" + id + '.html')
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Page not found');
+                })
+                .then(html => {
+                    section.innerHTML = html;
+                })
+                .catch(() => {
+                    section.innerHTML = '<p style="color:red;">Page could not be loaded.</p>';
+                });
+        }
+
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

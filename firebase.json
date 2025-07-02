@@ -8,9 +8,15 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/learn",
+        "destination": "/learn/learn.html"
+      },
+      {
+        "source": "/home",
+        "destination": "/home/index.html"
       }
     ]
+
+
   }
 }
