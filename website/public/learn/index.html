@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pybricks Teaching Hub - Learn</title>
+  <!-- CSS path relative to this file in /data/learn/ -->
+  <link rel="stylesheet" href="../data/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="header">
+    <!-- Logo path relative to this file -->
+    <img class="header-logo" src="../data/logo.png" alt="Logo" />
+    <p class="header-text">Pybricks Teaching Hub - Learn</p>
+    <button id="auth-btn" class="auth-button">Log In</button>
+  </div>
+
+  <div class="sidebar">
+    <!-- Link back to main site home -->
+    <div class="sidebar-sections-div">
+      <a href="../" class="sidebar-link"><p class="side-bar-text">Home</p></a>
+    </div>
+
+    <!-- Learn section navigation -->
+    <div class="sidebar-sections-div">
+      <a href="#" onclick="showPage('hubs')" class="sidebar-link"><p class="side-bar-text">Hubs</p></a>
+    </div>
+    <div class="sidebar-sections-div">
+      <a href="#" onclick="showPage('motors')" class="sidebar-link"><p class="side-bar-text">Motors</p></a>
+    </div>
+    <div class="sidebar-sections-div">
+      <a href="#" onclick="showPage('controllers')" class="sidebar-link"><p class="side-bar-text">Controllers</p></a>
+    </div>
+  </div>
+
+  <div class="msection-page">
+    <div id="hubs" class="page-section" style="display:none;"></div>
+    <div id="motors" class="page-section" style="display:none;"></div>
+    <div id="controllers" class="page-section" style="display:none;"></div>
+  </div>
+
+  <script>
+    // Show one content page and hide others
+    function showPage(id) {
+      const pages = document.querySelectorAll('.page-section');
+      pages.forEach(p => (p.style.display = 'none'));
+
+      const section = document.getElementById(id);
+      if (!section) return;
+      section.style.display = 'block';
+
+      // Load content HTML dynamically relative to this file (in /data/learn/)
+      fetch(id + '.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Content not found');
+          return response.text();
+        })
+        .then(html => {
+          section.innerHTML = html;
+        })
+        .catch(() => {
+          section.innerHTML = '<p style="color:red;">Content could not be loaded.</p>';
+        });
+    }
+
+    // Toggle dropdown if you want examples dropdown in future
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Toggle login button text
+    let isSignedIn = false;
+    document.getElementById('auth-btn').addEventListener('click', function () {
+      isSignedIn = !isSignedIn;
+      this.textContent = isSignedIn ? 'Sign Out' : 'Log In';
+    });
+
+    // Load default page on open
+    showPage('hubs');
+  </script>
+</body>
+</html>
