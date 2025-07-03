@@ -140,7 +140,7 @@ body {
   box-shadow: 0 4px 12px black;
   border-radius: 8px;
   overflow-y: auto;
-  color: white;
+  /* color: white; */
 }
 
 h1 {
