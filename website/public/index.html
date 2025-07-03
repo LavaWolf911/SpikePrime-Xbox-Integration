@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="main.js"></script>
 </head>
+
 <body>
   <div class="header">
     <img class="header-logo" src="data/logo.png" alt="Logo" />
@@ -17,86 +22,61 @@
   </div>
 
   <div class="sidebar">
-    <div class="sidebar-sections-div"><a href="#" onclick="navigate('/home')" class="sidebar-link"><p class="side-bar-text">Home</p></a></div>
-    <div class="sidebar-sections-div"><a href="#" onclick="navigate('/start')" class="sidebar-link"><p class="side-bar-text">Getting Started</p></a></div>
-    <div class="sidebar-sections-div"><a href="learn/" class="sidebar-link"><p class="side-bar-text">Learn</p></a></div>
-    
-    <div class="sidebar-sections-div dropdown-toggle" onclick="toggleDropdown('examples-dropdown')"><p class="side-bar-text">Examples ▼</p></div>
-    <div id="examples-dropdown" class="dropdown-content" style="display: none;">
-      <a href="#" onclick="navigate('/example1')"><p class="side-bar-text">Drive Base w/ Xbox Controller</p></a>
-      <a href="#" onclick="navigate('/example2')"><p class="side-bar-text">Robot Arm</p></a>
-      <a href="#" onclick="navigate('/example3')"><p class="side-bar-text">Example 3</p></a>
+    <div class="sidebar-sections-div">
+      <a href="#" onclick="loadPageFromFirestore('home')" class="sidebar-link">
+        <p class="side-bar-text">Home</p>
+      </a>
+    </div>
+    <div class="sidebar-sections-div">
+      <a href="#" onclick="navigate('/start')" class="sidebar-link">
+        <p class="side-bar-text">Getting Started</p>
+      </a>
+    </div>
+    <div class="sidebar-sections-div">
+      <a href="/learn/" class="sidebar-link">
+        <p class="side-bar-text">Learn</p>
+      </a>
     </div>
 
-    <div class="sidebar-sections-div"><a href="#" onclick="navigate('/resources')" class="sidebar-link"><p class="side-bar-text">Resources</p></a></div>
+    <div class="sidebar-sections-div dropdown-toggle" onclick="toggleDropdown('examples-dropdown')">
+      <p class="side-bar-text">Examples ▼</p>
+    </div>
+    <div id="examples-dropdown" class="dropdown-content" style="display: none;">
+      <a href="#" onclick="navigate('/example1')" class="sidebar-link">
+        <p class="side-bar-text">Drive Base w/ Xbox Controller</p>
+      </a>
+      <a href="#" onclick="navigate('/example2')" class="sidebar-link">
+        <p class="side-bar-text">Robot Arm</p>
+      </a>
+      <a href="#" onclick="navigate('/example3')" class="sidebar-link">
+        <p class="side-bar-text">Example 3</p>
+      </a>
+    </div>
+
+    <div class="sidebar-sections-div">
+      <a href="#" onclick="navigate('/resources')" class="sidebar-link">
+        <p class="side-bar-text">Resources</p>
+      </a>
+    </div>
   </div>
 
   <div class="msection-page">
-    <div id="home" class="page-section" style="display:none;"></div>
-    <div id="start" class="page-section" style="display:none;"></div>
-    <div id="resources" class="page-section" style="display:none;"></div>
-    <div id="example1" class="page-section" style="display:none;"></div>
-    <div id="example2" class="page-section" style="display:none;"></div>
-    <div id="example3" class="page-section" style="display:none;"></div>
+    <div id="home" class="page-section" style="display: none;"></div>
+    <div id="start" class="page-section" style="display: none;"></div>
+    <div id="resources" class="page-section" style="display: none;"></div>
+    <div id="example1" class="page-section" style="display: none;"></div>
+    <div id="example2" class="page-section" style="display: none;"></div>
+    <div id="example3" class="page-section" style="display: none;"></div>
   </div>
 
   <script>
-    const idMap = {
-      '/': 'home',
-      '/home': 'home',
-      '/start': 'start',
-      '/resources': 'resources',
-      '/example1': 'example1',
-      '/example2': 'example2',
-      '/example3': 'example3'
+    // Immediately show home on initial load
+    window.onload = () => {
+      if (typeof loadPageFromFirestore === 'function') {
+        loadPageFromFirestore('home');
+      }
     };
-
-    function navigate(path) {
-      history.pushState(null, '', path);
-      renderPage(path);
-    }
-
-    function renderPage(path) {
-      const id = idMap[path] || 'home';
-
-      document.querySelectorAll('.page-section').forEach(el => {
-        el.style.display = 'none';
-      });
-
-      const section = document.getElementById(id);
-      if (!section) return;
-      section.style.display = 'block';
-
-      fetch(`data/${id}.html`)
-        .then(resp => {
-          if (!resp.ok) throw new Error('Content not found');
-          return resp.text();
-        })
-        .then(html => {
-          section.innerHTML = html;
-        })
-        .catch(() => {
-          section.innerHTML = '<p style="color:red;">Content could not be loaded.</p>';
-        });
-    }
-
-    function toggleDropdown(id) {
-      const dropdown = document.getElementById(id);
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    let isSignedIn = false;
-    document.getElementById('auth-btn').addEventListener('click', function () {
-      isSignedIn = !isSignedIn;
-      this.textContent = isSignedIn ? 'Sign Out' : 'Log In';
-    });
-
-    window.onpopstate = () => {
-      renderPage(window.location.pathname);
-    };
-
-    // Initial load
-    renderPage(window.location.pathname);
   </script>
 </body>
+
 </html>
