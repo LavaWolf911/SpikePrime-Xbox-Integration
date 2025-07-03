@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="main.js"></script>
+  <script src="main.js"defer ></script>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a href="#" onclick="navigate('/start')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirestore('start')" class="sidebar-link">
         <p class="side-bar-text">Getting Started</p>
       </a>
     </div>
@@ -42,19 +42,19 @@
       <p class="side-bar-text">Examples ▼</p>
     </div>
     <div id="examples-dropdown" class="dropdown-content" style="display: none;">
-      <a href="#" onclick="navigate('/example1')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirestore('example1')" class="sidebar-link">
         <p class="side-bar-text">Drive Base w/ Xbox Controller</p>
       </a>
-      <a href="#" onclick="navigate('/example2')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirestore('example2')" class="sidebar-link">
         <p class="side-bar-text">Robot Arm</p>
       </a>
-      <a href="#" onclick="navigate('/example3')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirestore('example3')" class="sidebar-link">
         <p class="side-bar-text">Example 3</p>
       </a>
     </div>
 
     <div class="sidebar-sections-div">
-      <a href="#" onclick="navigate('/resources')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirestore('resources')" class="sidebar-link">
         <p class="side-bar-text">Resources</p>
       </a>
     </div>
