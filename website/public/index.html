@@ -5,30 +5,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pybricks Teaching Hub</title>
-  <link rel="stylesheet" href="data/main.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="main.js"defer ></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="assets/js/main.js"defer ></script>
 </head>
 
 <body>
   <div class="header">
-    <img class="header-logo" src="data/logo.png" alt="Logo" />
+    <img class="header-logo" src="assets/img/logo.png" alt="Logo" />
     <p class="header-text">Pybricks Teaching Hub</p>
     <button id="auth-btn" class="auth-button">Log In</button>
   </div>
 
   <div class="sidebar">
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirestore('home')" class="sidebar-link">
+      <a onclick="navigate('home')" class="sidebar-link">
         <p class="side-bar-text">Home</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirestore('start')" class="sidebar-link">
+      <a href="#" onclick="navigate('start')" class="sidebar-link">
         <p class="side-bar-text">Getting Started</p>
       </a>
     </div>
@@ -42,24 +43,24 @@
       <p class="side-bar-text">Examples ▼</p>
     </div>
     <div id="examples-dropdown" class="dropdown-content" style="display: none;">
-      <a href="#" onclick="loadPageFromFirestore('example1')" class="sidebar-link">
+      <a href="#" onclick="navigate('example1')" class="sidebar-link">
         <p class="side-bar-text">Drive Base w/ Xbox Controller</p>
       </a>
-      <a href="#" onclick="loadPageFromFirestore('example2')" class="sidebar-link">
+      <a href="#" onclick="navigate('example2')" class="sidebar-link">
         <p class="side-bar-text">Robot Arm</p>
       </a>
-      <a href="#" onclick="loadPageFromFirestore('example3')" class="sidebar-link">
+      <a href="#" onclick="navigate('example3')" class="sidebar-link">
         <p class="side-bar-text">Example 3</p>
       </a>
     </div>
 
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirestore('resources')" class="sidebar-link">
+      <a href="#" onclick="navigate('resources')" class="sidebar-link">
         <p class="side-bar-text">Resources</p>
       </a>
     </div>
   </div>
-
+  <div id="markdown-content"></div>
   <div class="msection-page">
     <div id="home" class="page-section" style="display: none;"></div>
     <div id="start" class="page-section" style="display: none;"></div>

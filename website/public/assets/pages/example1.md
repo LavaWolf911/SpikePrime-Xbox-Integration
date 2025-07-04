@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+# Drive Base with Xbox Controller
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Drive Base with Xbox Controller</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <style>
-        .code-container {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-    </style>
-</head>
+## Overview
 
-<body>
+This document provides an example of controlling a drive base using an Xbox controller with the Pybricks library.
 
-    <h2>Python Code</h2>
+## Outline
 
-    <div class="code-container">
-        <pre><code class="language-python line-numbers" data-prisimjs-copy="Copy">
+1. [Overview](#overview)
+2. [Python Code](#python-code)
+3. [How It Works](#how-it-works)
+4. [Requirements](#requirements)
+
+## Python Code
+
+```python
 from pybricks.hubs import PrimeHub
 from pybricks.iodevices import XboxController
 from pybricks.pupdevices import Motor
@@ -106,8 +98,17 @@ class Robot:
 if __name__ == "__main__":
     bot = Robot()
     bot.run()
-    </code></pre>
-    </div>
-</body>
+```
 
-</html>
+## How It Works
+
+- The robot uses joystick input for driving and triggers/buttons for controlling additional motors.
+- Error handling is included for device initialization.
+- The code supports an optional fourth motor.
+
+## Requirements
+
+- Pybricks library
+- Compatible LEGO hardware
+- Xbox controller
+- Python environment for Pybricks

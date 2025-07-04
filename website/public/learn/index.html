@@ -6,19 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pybricks Teaching Hub - Learn</title>
   <!-- CSS path relative to this file in /data/learn/ -->
-  <link rel="stylesheet" href="../data/main.css" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="../main.js"defer></script>
+  <script src="../assets/js/main.js"defer></script>
 </head>
 
 <body>
   <div class="header">
     <!-- Logo path relative to this file -->
-    <img class="header-logo" src="../data/logo.png" alt="Logo" />
+    <img class="header-logo" src="../assets/img/logo.png" alt="Logo" />
     <p class="header-text">Pybricks Teaching Hub - Learn</p>
     <button id="auth-btn" class="auth-button">Log In</button>
   </div>
@@ -33,17 +33,17 @@
 
     <!-- Learn section navigation -->
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirebase('hubs')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirebase('Learn','hubs')" class="sidebar-link">
         <p class="side-bar-text">Hubs</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirebase('motors')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirebase('Learn','motors')" class="sidebar-link">
         <p class="side-bar-text">Motors</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirebase('controllers')" class="sidebar-link">
+      <a href="#" onclick="loadPageFromFirebase('Learn','controllers')" class="sidebar-link">
         <p class="side-bar-text">Controllers</p>
       </a>
     </div>
