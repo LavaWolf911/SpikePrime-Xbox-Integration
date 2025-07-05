@@ -1,38 +1,17 @@
-// Firebase setup
-const fireStoreNames = {
-  collections: {
-    MainPage: "Pages",
-    LearnPage: "Learn"
-  },
-  pages: {
-    home: "home",
-    start: "start",
-    resources: "resources",
-    example1: "example1",
-    example2: "example2",
-    example3: "example3"
-  },
-  LearnPages: {
-    Hubs: "Hubs",
-    Motors: "SpikePrime",
-    Sensors: "Sensors",
-  }
-}
 const idMap = {
-  '/': 'home',
-  '/home': 'home',
-  '/start': 'start',
-  '/resources': 'resources',
-  '/example1': 'example1',
-  '/example2': 'example2',
-  '/example3': 'example3',
-  '/learn/hubs': 'Hubs',
-  '/learn/motors': 'Motors',
-  '/learn/sensors': 'Sensors',
-  '/learn': 'Learn',
-}
+  'home': 'home',
+  'start': 'start',
+  'resources': 'resources',
+  'example1': 'examples/example1',
+  'example2': 'examples/example2',
+  'example3': 'examples/example3',
+  'hubs': 'learn/hubs',
+  'motors': 'learn/motors',
+  'sensors': 'learn/sensors',
+  'learn': 'learn/index'
+};
 
-
+// Firebase config (unchanged)
 const firebaseConfig = {
   apiKey: "AIzaSyCZ3FsgxN34goM9Crg1LlwSuxw0jUN0HrA",
   authDomain: "pybricks-website.firebaseapp.com",
@@ -46,46 +25,67 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Load Markdown from .md file
+async function loadMarkdownContent(id) {
+  const section = document.getElementById('markdown-content');
+  if (!section) return;
 
-function loadFromFirestore(collectionName, docId) {
-    db.collection(collectionName).doc(docId).get().then(doc => {
-      if (doc.exists) {
-        const data = doc.data();
-        return data;
-      } else {
-        return "Data not found";
-      }
-    });
+  try {
+    const response = await fetch(`assets/pages/${id}.md`);
+    if (!response.ok) throw new Error();
+    const md = await response.text();
+    section.innerHTML = marked.parse(md);
+  } catch (e) {
+    section.innerHTML = `<p style="color:red;">Page not found: ${id}</p>`;
+  }
 }
 
+// Load from Firestore (for future account manager use)
+async function loadFromFirestore(collectionName, docId) {
+  const section = document.getElementById('markdown-content');
+  if (!section) return;
 
-function toggleDropdown(id) {
-  const dropdown = document.getElementById(id);
-  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  try {
+    const doc = await db.collection(collectionName).doc(docId).get();
+    if (doc.exists) {
+      section.innerHTML = marked.parse(doc.data().markdown || 'No content.');
+    } else {
+      section.innerHTML = "<p style='color:red;'>Document not found.</p>";
+    }
+  } catch (e) {
+    section.innerHTML = "<p style='color:red;'>Error loading Firestore content.</p>";
+    console.error(e);
+  }
 }
 
-function loadMarkdownContent(id) {
-  fetch(`pages/${id}.md`)
-    .then(res => {
-      if (!res.ok) throw new Error();
-      return res.text();
-    })
-    .then(md => {
-      section.innerHTML = marked.parse(md);
-    })
-    .catch(() => {
-      section.innerHTML = '<p style="color:red;">Page not found.</p>';
-    });
-}
-
+// Navigation handler
 function navigate(name) {
   const id = idMap[name] || 'home';
-  history.pushState({}, '', `/${id}`);
-  loadMarkdownContent(name);
+  history.pushState({}, '', `/${name}`);
+  loadMarkdownContent(id);
 }
 
+// Sidebar dropdown toggle
+function toggleDropdown(id) {
+  const dropdown = document.getElementById(id);
+  if (dropdown) {
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  }
+}
 
-// Make functions available to HTML
+// Make available to HTML
 window.navigate = navigate;
-window.loadFromFirestore = loadFromDatabase;
-window.toggleDropdown = dropdown;
+window.toggleDropdown = toggleDropdown;
+window.loadFromFirestore = loadFromFirestore;
+
+// Handle browser nav
+window.onpopstate = () => {
+  const path = window.location.pathname.slice(1) || 'home';
+  navigate(path);
+};
+
+// Initial load
+document.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname.slice(1) || 'home';
+  navigate(path);
+});

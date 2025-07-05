@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pybricks Teaching Hub - Learn</title>
-  <!-- CSS path relative to this file in /data/learn/ -->
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,42 +16,37 @@
 
 <body>
   <div class="header">
-    <!-- Logo path relative to this file -->
     <img class="header-logo" src="../assets/img/logo.png" alt="Logo" />
     <p class="header-text">Pybricks Teaching Hub - Learn</p>
     <button id="auth-btn" class="auth-button">Log In</button>
   </div>
 
   <div class="sidebar">
-    <!-- Link back to main site home -->
     <div class="sidebar-sections-div">
       <a href="../home" class="sidebar-link">
         <p class="side-bar-text">Home</p>
       </a>
     </div>
-
-    <!-- Learn section navigation -->
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirebase('Learn','hubs')" class="sidebar-link">
+      <a onclick="navigate('hubs')" class="sidebar-link">
         <p class="side-bar-text">Hubs</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirebase('Learn','motors')" class="sidebar-link">
+      <a onclick="navigate('motors')" class="sidebar-link">
         <p class="side-bar-text">Motors</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a href="#" onclick="loadPageFromFirebase('Learn','controllers')" class="sidebar-link">
+      <a onclick="navigate('sensors')" class="sidebar-link">
         <p class="side-bar-text">Controllers</p>
       </a>
     </div>
   </div>
-
   <div class="msection-page">
-    <div id="hubs" class="page-section" style="display:none;"></div>
-    <div id="motors" class="page-section" style="display:none;"></div>
-    <div id="controllers" class="page-section" style="display:none;"></div>
+    <div id="markdown-content">
+
+    </div>
   </div>
 </body>
 
