@@ -134,10 +134,10 @@ body {
 }
 
 .markdown-content {
-  background-color: #242037;
+  /* background-color: #242037; */
   height: 100%;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px black;
+  /* box-shadow: 0 4px 12px black; */
   border-radius: 8px;
   overflow-y: auto;
   /* color: white; */

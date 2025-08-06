@@ -28,12 +28,22 @@ const db = firebase.firestore();
 // Load Markdown from .md file
 async function loadMarkdownContent(id) {
   const section = document.getElementById('markdown-content');
+  const fullPath = `assets/pages/${id}.md`;
+  console.log("Fetching:", fullPath); // 👈 debug
   if (!section) return;
 
   try {
     const response = await fetch(`assets/pages/${id}.md`);
+
     if (!response.ok) throw new Error();
     const md = await response.text();
+    if (!md) {
+      section.innerHTML = "<p style='color:red;'>No content found.</p>";
+      return;
+    } else if (md.startsWith('<')) {
+      section.innerHTML = "<p style='color:red;'>Invalid content format.</p>";
+      return;
+    }
     section.innerHTML = marked.parse(md);
   } catch (e) {
     section.innerHTML = `<p style="color:red;">Page not found: ${id}</p>`;
@@ -57,15 +67,13 @@ async function loadFromFirestore(collectionName, docId) {
     console.error(e);
   }
 }
-
-// Navigation handler
+``
 function navigate(name) {
   const id = idMap[name] || 'home';
-  history.pushState({}, '', `/${name}`);
+  history.pushState({}, '', `/${id}`);
   loadMarkdownContent(id);
 }
 
-// Sidebar dropdown toggle
 function toggleDropdown(id) {
   const dropdown = document.getElementById(id);
   if (dropdown) {

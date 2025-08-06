@@ -1,15 +1,18 @@
 {
   "hosting": {
     "public": "website/public",
+    "cleanUrls": true,
     "ignore": [
-      "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
     "rewrites": [
-      { "source": "/home", "destination": "/index.html" },
-      { "source": "/learn/**", "destination": "/index.html" },
-      { "source": "**", "destination": "/index.html" }
-    ]
+      { "source": "/", "destination": "index.html" },
+      { "source": "/home", "destination": "/home.html" },
+      { "source": "/start", "destination": "/start.html" }
+    ],
+    "errorPages": {
+      "404": "/404.html"
+    }
   }
 }

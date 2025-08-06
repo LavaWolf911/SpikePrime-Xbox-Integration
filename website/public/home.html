@@ -4,42 +4,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pybricks Teaching Hub - Learn</title>
+  <title>Pybricks Teaching Hub</title>
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="../assets/js/main.js"defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </head>
 
 <body>
   <div class="header">
     <img class="header-logo" src="../assets/img/logo.png" alt="Logo" />
-    <p class="header-text">Pybricks Teaching Hub - Learn</p>
+    <p class="header-text">Pybricks Teaching Hub</p>
     <button id="auth-btn" class="auth-button">Log In</button>
   </div>
 
   <div class="sidebar">
     <div class="sidebar-sections-div">
-      <a href="../home" class="sidebar-link">
+      <a href="../home.html" class="sidebar-link">
         <p class="side-bar-text">Home</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a onclick="navigate('hubs')" class="sidebar-link">
-        <p class="side-bar-text">Hubs</p>
+      <a href="../started.html" class="sidebar-link">
+        <p class="side-bar-text">Getting Started</p>
       </a>
     </div>
     <div class="sidebar-sections-div">
-      <a onclick="navigate('motors')" class="sidebar-link">
-        <p class="side-bar-text">Motors</p>
+      <a href="../learn/" class="sidebar-link">
+        <p class="side-bar-text">Learn</p>
       </a>
     </div>
+
+    <div class="sidebar-sections-div dropdown-toggle" onclick="toggleDropdown('examples-dropdown')">
+      <p class="side-bar-text">Examples ▼</p>
+    </div>
+    <div id="examples-dropdown" class="dropdown-content" style="display: none;">
+      <a onclick="navigate('example1')" class="sidebar-link">
+        <p class="side-bar-text">Drive Base w/ Xbox Controller</p>
+      </a>
+      <a onclick="navigate('example2')" class="sidebar-link">
+        <p class="side-bar-text">Robot Arm</p>
+      </a>
+      <a onclick="navigate('example3')" class="sidebar-link">
+        <p class="side-bar-text">Example 3</p>
+      </a>
+    </div>
+
     <div class="sidebar-sections-div">
-      <a onclick="navigate('sensors')" class="sidebar-link">
-        <p class="side-bar-text">Controllers</p>
+      <a onclick="navigate('resources')" class="sidebar-link">
+        <p class="side-bar-text">Resources</p>
       </a>
     </div>
   </div>
