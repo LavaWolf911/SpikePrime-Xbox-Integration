@@ -6,11 +6,6 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
-      { "source": "/", "destination": "index.html" },
-      { "source": "/home", "destination": "/home.html" },
-      { "source": "/start", "destination": "/start.html" }
-    ],
     "errorPages": {
       "404": "/404.html"
     }

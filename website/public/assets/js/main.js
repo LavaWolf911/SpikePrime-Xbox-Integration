@@ -1,7 +1,7 @@
 const idMap = {
-  'home': 'home',
-  'start': 'start',
-  'resources': 'resources',
+  'home': '../home',
+  'start': '../start',
+  'resources': '../resources',
   'example1': 'examples/example1',
   'example2': 'examples/example2',
   'example3': 'examples/example3',
@@ -11,7 +11,7 @@ const idMap = {
   'learn': 'learn/index'
 };
 
-// Firebase config (unchanged)
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCZ3FsgxN34goM9Crg1LlwSuxw0jUN0HrA",
   authDomain: "pybricks-website.firebaseapp.com",
@@ -25,53 +25,34 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Load Markdown from .md file
-async function loadMarkdownContent(id) {
-  const section = document.getElementById('markdown-content');
-  const fullPath = `assets/pages/${id}.md`;
-  console.log("Fetching:", fullPath); // 👈 debug
-  if (!section) return;
+// SPA-style navigation
+async function goTo(page) {
+  const container = document.getElementById("content"); // Your main content area
+  const filePath = `${page}.html`;
 
   try {
-    const response = await fetch(`assets/pages/${id}.md`);
+    const res = await fetch(filePath);
+    if (!res.ok) throw new Error("Page not found");
 
-    if (!response.ok) throw new Error();
-    const md = await response.text();
-    if (!md) {
-      section.innerHTML = "<p style='color:red;'>No content found.</p>";
-      return;
-    } else if (md.startsWith('<')) {
-      section.innerHTML = "<p style='color:red;'>Invalid content format.</p>";
-      return;
-    }
-    section.innerHTML = marked.parse(md);
-  } catch (e) {
-    section.innerHTML = `<p style="color:red;">Page not found: ${id}</p>`;
+    const html = await res.text();
+    container.html = html;
+    console.log(`Loaded ${filePath}`);
+    rewriteURL(page);
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `<h1>404 - Page Not Found</h1><p>The page you are looking for does not exist.</p>`;
   }
 }
 
-// Load from Firestore (for future account manager use)
-async function loadFromFirestore(collectionName, docId) {
-  const section = document.getElementById('markdown-content');
-  if (!section) return;
-
-  try {
-    const doc = await db.collection(collectionName).doc(docId).get();
-    if (doc.exists) {
-      section.innerHTML = marked.parse(doc.data().markdown || 'No content.');
-    } else {
-      section.innerHTML = "<p style='color:red;'>Document not found.</p>";
-    }
-  } catch (e) {
-    section.innerHTML = "<p style='color:red;'>Error loading Firestore content.</p>";
-    console.error(e);
-  }
+function navigate(path) {
+  const page = idMap[path] || 'home';
+  console.log(`Navigating to: ${page}`);
+  goTo(page);
 }
-``
-function navigate(name) {
-  const id = idMap[name] || 'home';
-  history.pushState({}, '', `/${id}`);
-  loadMarkdownContent(id);
+
+function rewriteURL(name) {
+  console.log(`Rewriting URL to: /${name}`);
+  history.pushState({}, '', `/${name}`);
 }
 
 function toggleDropdown(id) {
@@ -81,12 +62,7 @@ function toggleDropdown(id) {
   }
 }
 
-// Make available to HTML
-window.navigate = navigate;
-window.toggleDropdown = toggleDropdown;
-window.loadFromFirestore = loadFromFirestore;
-
-// Handle browser nav
+// Browser back/forward
 window.onpopstate = () => {
   const path = window.location.pathname.slice(1) || 'home';
   navigate(path);
