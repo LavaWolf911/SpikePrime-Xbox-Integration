@@ -10,6 +10,18 @@ const idMap = {
   'sensors': '../assets/pages/learn/sensors',
 };
 
+const urlMap = {
+  'home': 'home',
+  'start': 'start',
+  'resources': 'resources',
+  'example1': 'examples/example1',
+  'example2': 'examples/example2',
+  'example3': 'examples/example3',
+  'hubs': 'learn/hubs',
+  'motors': 'learn/motors',
+  'sensors': 'learn/sensors',
+};
+
 // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCZ3FsgxN34goM9Crg1LlwSuxw0jUN0HrA",
@@ -25,9 +37,9 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // SPA-style navigation
-async function goTo(page) {
+async function goTo(page, path) {
   const container = document.getElementById("content"); // Your main content area
-  const filePath = `${page}.html`;
+  const filePath = `${path}.html`;
 
   try {
     const res = await fetch(filePath);
@@ -35,8 +47,8 @@ async function goTo(page) {
 
     const html = await res.text();
     container.innerHTML = html;
-    console.log(`Loaded ${filePath}`);
-    rewriteURL(page);
+    console.log(`Loaded ${page}`);
+    rewriteURL(urlMap[page] || 'home');
   } catch (err) {
     console.error(err);
     container.innerHTML = `<h1>Error loading page</h1><p>${err.message}</p>`;
@@ -44,10 +56,10 @@ async function goTo(page) {
   }
 }
 
-function navigate(path) {
-  const page = idMap[path] || 'home';
+function navigate(page) {
+  const fullPath = idMap[page] || 'home';
   console.log(`Navigating to: ${page}`);
-  goTo(page);
+  goTo(page, fullPath);
 }
 
 function rewriteURL(name) {
