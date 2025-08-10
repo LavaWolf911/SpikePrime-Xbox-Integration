@@ -1,14 +1,13 @@
 const idMap = {
-  'home': '../home',
-  'start': '../start',
-  'resources': '../resources',
-  'example1': 'examples/example1',
-  'example2': 'examples/example2',
-  'example3': 'examples/example3',
-  'hubs': 'learn/hubs',
-  'motors': 'learn/motors',
-  'sensors': 'learn/sensors',
-  'learn': 'learn/index'
+  'home': '../assets/pages/home',
+  'start': '../assets/pages/start',
+  'resources': '../assets/pages/resources',
+  'example1': '../assets/pages/examples/example1',
+  'example2': '../assets/pages/examples/example2',
+  'example3': '../assets/pages/examples/example3',
+  'hubs': '../assets/pages/learn/hubs',
+  'motors': '../assets/pages/learn/motors',
+  'sensors': '../assets/pages/learn/sensors',
 };
 
 // Firebase config
@@ -35,12 +34,13 @@ async function goTo(page) {
     if (!res.ok) throw new Error("Page not found");
 
     const html = await res.text();
-    container.html = html;
+    container.innerHTML = html;
     console.log(`Loaded ${filePath}`);
     rewriteURL(page);
   } catch (err) {
     console.error(err);
-    container.innerHTML = `<h1>404 - Page Not Found</h1><p>The page you are looking for does not exist.</p>`;
+    container.innerHTML = `<h1>Error loading page</h1><p>${err.message}</p>`;
+    rewriteURL('error');
   }
 }
 
