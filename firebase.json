@@ -6,8 +6,23 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "rewrites": [
+      {
+        "source": "/examples/example1",
+        "destination": "/examples/example1"
+      },
+      {
+        "source": "/assets/**",
+        "destination": "/assets/index.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "errorPages": {
       "404": "/404.html"
     }
+
   }
 }

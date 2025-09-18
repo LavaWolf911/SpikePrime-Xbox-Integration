@@ -49,6 +49,9 @@ async function goTo(page, path) {
     container.innerHTML = html;
     console.log(`Loaded ${page}`);
     rewriteURL(urlMap[page] || 'home');
+    setTimeout(() => {
+      setupCopyButtons();
+    }, 200);
   } catch (err) {
     console.error(err);
     container.innerHTML = `<h1>Error loading page</h1><p>${err.message}</p>`;
@@ -60,6 +63,7 @@ function navigate(page) {
   const fullPath = idMap[page] || 'home';
   console.log(`Navigating to: ${page}`);
   goTo(page, fullPath);
+
 }
 
 function rewriteURL(name) {
@@ -85,3 +89,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname.slice(1) || 'home';
   navigate(path);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, ''); // remove slashes
+  const idMap = {
+    "home": "home",
+    "about": "about",
+    "resources": "resources",
+    "examplesexample1": "example1",
+    "examplesexample2": "example2",
+    "examplesexample3": "example3",
+
+  };
+  if (idMap[path]) {
+    navigate(idMap[path]); // navigate to valid page
+  } else {
+    window.location.href = "/404.html"; // redirect to 404 page
+  }
+});
+function setupCopyButtons() {
+  console.log("🔍 Looking for copy buttons...");
+
+  // Remove old listeners by cloning nodes
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+  });
+
+  // Attach listeners
+  document.querySelectorAll(".copy-btn").forEach(copyBtn => {
+    const targetSelector = copyBtn.getAttribute("data-target");
+    const codeBlock = document.querySelector(targetSelector);
+
+    if (!codeBlock) {
+      console.warn(`⚠️ No code block found for ${targetSelector}`);
+      return;
+    }
+
+    copyBtn.addEventListener("click", () => {
+      console.log(`📋 Copy button clicked for ${targetSelector}`);
+      navigator.clipboard.writeText(codeBlock.innerText)
+        .then(() => console.log("✅ Code copied to clipboard"))
+        .catch(err => console.error("❌ Copy failed", err));
+    });
+
+    console.log(`✅ Copy listener attached for ${targetSelector}`);
+  });
+}
